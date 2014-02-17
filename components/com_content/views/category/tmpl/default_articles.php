@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.framework');
 
@@ -19,8 +19,9 @@ $n			= count($this->items);
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 
-// check for at least one editable article
+// Check for at least one editable article
 $isEditable = false;
+
 if (!empty($this->items))
 {
 	foreach ($this->items as $article)
@@ -133,6 +134,16 @@ if (!empty($this->items))
 						<?php if ($article->state == 0) : ?>
 							<span class="list-published label label-warning">
 								<?php echo JText::_('JUNPUBLISHED'); ?>
+							</span>
+						<?php endif; ?>
+						<?php if (strtotime($article->publish_up) > strtotime(JFactory::getDate())) : ?>
+							<span class="list-published label label-warning">
+								<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
+							</span>
+						<?php endif; ?>
+						<?php if ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00') : ?>
+							<span class="list-published label label-warning">
+								<?php echo JText::_('JEXPIRED'); ?>
 							</span>
 						<?php endif; ?>
 					</td>
