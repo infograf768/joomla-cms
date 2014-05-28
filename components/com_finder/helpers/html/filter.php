@@ -205,6 +205,12 @@ abstract class JHtmlFilter
 			// Populate the group with nodes.
 			foreach ($nodes as $nk => $nv)
 			{
+				// Translate Language All
+				if ($bv->title == 'Language' && $nv->title == '*')
+				{
+					$nv->title = JText::_('JALL_LANGUAGE');
+				}
+
 				// Determine if the node should be checked.
 				$checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
