@@ -425,7 +425,7 @@ class FinderIndexerResult
 	{
 		if ($this->language == '')
 		{
-			$this->language == '*';
+			$this->language = '*';
 		}
 	}
 }
