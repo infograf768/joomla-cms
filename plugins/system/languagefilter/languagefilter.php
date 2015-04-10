@@ -433,7 +433,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (empty($this->user_lang_code))
 			{
-				$this->user_lang_code = $this->default_lang;
+				$this->user_lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 		}
 	}
@@ -462,7 +462,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (empty($lang_code))
 			{
-				$lang_code = $this->default_lang;
+				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 
 			if ($lang_code == $this->user_lang_code || !isset($this->lang_codes[$lang_code]))
