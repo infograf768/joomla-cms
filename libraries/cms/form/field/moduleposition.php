@@ -141,7 +141,7 @@ class JFormFieldModulePosition extends JFormFieldText
 		$displayData = array(
 			'id'       => $this->id,
 			'clientId' => $this->clientId,
-			'input'    => parent::getInput()
+			'inputTag'    => parent::getInput()
 		);
 
 		return JLayoutHelper::render($this->renderLayout, $displayData);

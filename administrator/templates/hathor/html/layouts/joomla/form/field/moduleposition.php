@@ -15,9 +15,7 @@ defined('_JEXEC') or die;
  *
  * @var  string   $id The module id number
  * @var  string   $clientId The Client id (site/admin)
- * @var  string   $input The input field
- * @var  string   $width The width of the iframe
- * @var  string   $typeAlias The component type
+ * @var  string   $inputTag The input field
  */
 extract($displayData);
 
@@ -40,7 +38,7 @@ $link = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component
 echo JHtmlBootstrap::renderModal('module' . $id . 'PositionModal', array( 'url' => $link, 'title' => JText::_('COM_MODULES_CHANGE_POSITION_TITLE'), 'height' => '300px', 'width' => '800px'), '');
 ?>
 <div class="input-append">
-	<?php echo $input; ?>
+	<?php echo $inputTag; ?>
 	<button onclick="jQuery('#module<?php echo $id; ?>PositionModal').modal('show')" class="btn" data-toggle="modal" title="<?php echo JText::_('COM_MODULES_CHANGE_POSITION_BUTTON'); ?>">
 		<span><?php echo JText::_('COM_MODULES_CHANGE_POSITION_BUTTON'); ?></span>
 	</button>
