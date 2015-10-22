@@ -19,9 +19,6 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
-// Load the modal behavior script.
-JHtml::_('bootstrap.modal');
-
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration(
 	'
@@ -35,7 +32,16 @@ JFactory::getDocument()->addScriptDeclaration(
 $link = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=jSelectPosition_'
 	. $id . '&amp;client_id=' . $clientId;
 
-echo JHtmlBootstrap::renderModal('module' . $id . 'PositionModal', array( 'url' => $link, 'title' => JText::_('COM_MODULES_CHANGE_POSITION_TITLE'), 'height' => '300px', 'width' => '800px'), '');
+echo JHtml::_(
+	'bootstrap.renderModal',
+	'module' . $id . 'PositionModal',
+	array(
+		'url' => $link,
+		'title' => JText::_('COM_MODULES_CHANGE_POSITION_TITLE'),
+		'height' => '300px',
+		'width' => '800px'
+	)
+);
 ?>
 <div class="input-append">
 	<?php echo $inputTag; ?>
