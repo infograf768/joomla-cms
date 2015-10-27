@@ -39,7 +39,7 @@ class JFormFieldModulePosition extends JFormFieldText
 	*
 	* @var  string
 	*/
-	protected $renderLayout = 'joomla.form.field.moduleposition';
+	protected $layout = 'joomla.form.field.moduleposition';
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -144,6 +144,6 @@ class JFormFieldModulePosition extends JFormFieldText
 			'inputTag'    => parent::getInput()
 		);
 
-		return JLayoutHelper::render($this->renderLayout, $displayData);
+		return JLayoutHelper::render($this->layout, $displayData);
 	}
 }
