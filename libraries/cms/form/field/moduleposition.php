@@ -130,23 +130,6 @@ class JFormFieldModulePosition extends JFormFieldText
 	}
 
 	/**
-	 * Method to get the data that is going to be passed to the layout
-	 *
-	 * @return  array
-	 *
-	 * @since   3.5
-	 */
-	public function getLayoutData()
-	{
-		$layoutData = parent::getInputLayoutData();
-
-		$layoutData['clientId'] = $this->clientId;
-		$layoutData['inputTag'] = parent::getInput();
-
-		return $layoutData;
-	}
-
-	/**
 	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -155,6 +138,28 @@ class JFormFieldModulePosition extends JFormFieldText
 	 */
 	protected function getInput()
 	{
+		if (empty($this->layout))
+		{
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+		}
+
 		return JLayoutHelper::render($this->layout, $this->getLayoutData());
+	}
+
+	/**
+	 * Method to get the data that is going to be passed to the layout
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function getLayoutData()
+	{
+		$layoutData = parent::getLayoutData();
+
+		$layoutData['clientId'] = $this->clientId;
+		$layoutData['inputTag'] = parent::getInput();
+
+		return $layoutData;
 	}
 }
