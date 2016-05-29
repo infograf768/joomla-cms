@@ -234,16 +234,7 @@ class JTableMenu extends JTableNested
 				&& ($table->id != $this->id || $this->id == 0))
 			{
 
-				if ($this->menutype == $table->menutype)
-				{
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
-				}
-				else
-				{
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
-				}
-
-				return false;
+				$error = true;
 			}
 		}
 		else
@@ -261,16 +252,7 @@ class JTableMenu extends JTableNested
 					&& ($table->id != $this->id || $this->id == 0 || $table->language == '*' || $table->language != '*'))
 				{
 
-					if ($this->menutype == $table->menutype)
-					{
-						$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
-					}
-					else
-					{
-						$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
-					}
-
-					return false;
+					$error = true;
 				}
 			}
 			else
@@ -287,18 +269,23 @@ class JTableMenu extends JTableNested
 					&& ($table->id != $this->id || $this->id == 0))
 				{
 
-					if ($this->menutype == $table->menutype)
-					{
-						$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
-					}
-					else
-					{
-						$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
-					}
-
-					return false;
+					$error = true;
 				}
 			}
+		}
+
+		if ($error)
+		{
+			if ($this->menutype == $table->menutype)
+			{
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
+			}
+
+			return false;
 		}
 
 		if ($this->home == '1')
