@@ -106,9 +106,46 @@ class JTableMenu extends JTableNested
 		// If the alias field is empty, set it to the title.
 		$this->alias = trim($this->alias);
 
-		if ((empty($this->alias)) && ($this->type != 'alias' && $this->type != 'url'))
+		if (empty($this->alias))
 		{
-			$this->alias = $this->title;
+			if ($this->type != 'alias' && $this->type != 'url')
+			{
+				$this->alias = $this->title;
+			}
+			elseif ($this->type == 'alias')
+			{
+				// If menu type alias test first if an alias already exists.
+				$table      = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
+				$testAlias  = JApplicationHelper::stringURLSafe($this->title);
+
+				$itemSearch = array('alias' => $testAlias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id);
+
+				// Is a multilingual site.
+				if (JLanguageMultilang::isEnabled())
+				{
+					$itemSearchAll                 = $itemSearch;
+					$itemSearchAll['language']     = '*';
+					$itemSearchCurrent             = $itemSearch;
+					$itemSearchCurrent['language'] = $this->language;
+
+					// If not exists a menu item at the same level with the same alias (in All language or in the same language).
+					if (!$table->load($itemSearchAll) && !$table->load($itemSearchCurrent))
+					{
+						// Use the title as alias.
+						$this->alias = $this->title;
+					}
+				}
+				// Is a monolingual site.
+				else
+				{
+					// If not exists a menu item at the same level with the same alias (in any language).
+					if (!$table->load($itemSearch))
+					{
+						// Use the title as alias.
+						$this->alias = $this->title;
+					}
+				}
+			}
 		}
 
 		// Check for a path.
@@ -184,26 +221,84 @@ class JTableMenu extends JTableNested
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 
-		if ($table->load(
-				array(
-				'alias' => $this->alias,
-				'parent_id' => $this->parent_id,
-				'client_id' => (int) $this->client_id,
-				'language' => $this->language
-				)
-			)
-			&& ($table->id != $this->id || $this->id == 0))
+		// If the site is monolingual, we do not check for language
+		if (!JLanguageMultilang::isEnabled())
 		{
-			if ($this->menutype == $table->menutype)
+			if ($table->load(
+					array(
+					'alias' => $this->alias,
+					'parent_id' => $this->parent_id,
+					'client_id' => (int) $this->client_id
+					)
+				)
+				&& ($table->id != $this->id || $this->id == 0))
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+
+				if ($this->menutype == $table->menutype)
+				{
+					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+				}
+				else
+				{
+					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
+				}
+
+				return false;
+			}
+		}
+		else
+		{
+			// If the site is multilingual, language ALL should be treated as when the site is monolingual
+			if ($this->language == '*')
+			{
+				if ($table->load(
+						array(
+						'alias' => $this->alias,
+						'parent_id' => $this->parent_id,
+						'client_id' => (int) $this->client_id
+						)
+					)
+					&& ($table->id != $this->id || $this->id == 0 || $table->language == '*' || $table->language != '*'))
+				{
+
+					if ($this->menutype == $table->menutype)
+					{
+						$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+					}
+					else
+					{
+						$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
+					}
+
+					return false;
+				}
 			}
 			else
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
-			}
+				// If the site is multilingual, same alias is authorized when the language is different
+				if ($table->load(
+						array(
+						'alias' => $this->alias,
+						'parent_id' => $this->parent_id,
+						'client_id' => (int) $this->client_id,
+						'language' => $this->language
+						)
+					)
+					&& ($table->id != $this->id || $this->id == 0))
+				{
 
-			return false;
+					if ($this->menutype == $table->menutype)
+					{
+						$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+					}
+					else
+					{
+						$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
+					}
+
+					return false;
+				}
+			}
 		}
 
 		if ($this->home == '1')
