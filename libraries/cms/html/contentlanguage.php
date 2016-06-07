@@ -71,7 +71,7 @@ abstract class JHtmlContentLanguage
 
 			// Build the query.
 			$query->select('a.lang_code AS value, a.title AS text, a.title_native, a.lang_id AS lang_id')
-				->select('CONCAT(\'com_languages.language.\', a.lang_id)  AS asset_name')
+				->select($query->concatenate(array('\'com_languages.language.\'', $db->qn('a.lang_id'))) . ' AS asset_name')
 				->from('#__languages AS a')
 				->where('a.published >= 0')
 				->order('a.title');
