@@ -279,4 +279,24 @@ class LanguagesModelLanguage extends JModelAdmin
 		parent::cleanCache('_system');
 		parent::cleanCache('com_languages');
 	}
+
+	/**
+	 * Method to test whether a record can be deleted.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.6.0
+	 */
+	protected function canDelete($record)
+	{
+		if (!empty($record->lang_id))
+		{
+			return $record->published != -2 ? false : JFactory::getUser()->authorise('core.delete', 'com_languages.language.' . (int) $record->lang_id);
+		}
+
+		// Default to component settings if the language is unknown.
+		return parent::canDelete('com_languages');
+	}
 }
