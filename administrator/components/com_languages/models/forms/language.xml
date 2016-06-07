@@ -8,6 +8,11 @@
 			default="0"
 			readonly="true"
 		/>
+		
+		<field name="asset_id"
+			type="hidden"
+			filter="unset"
+		/>
 
 		<field name="lang_code" type="text"
 			description="COM_LANGUAGES_FIELD_LANG_TAG_DESC"
@@ -75,6 +80,11 @@
 		size="1"
 		label="JFIELD_ACCESS_LABEL"
 		description="JFIELD_ACCESS_DESC"
+		/>
+
+		<field name="rules" type="rules" label="JFIELD_RULES_LABEL"
+			translate_label="false" filter="rules"
+			component="com_languages" section="language" validate="rules"
 		/>
 	</fieldset>
 	<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">

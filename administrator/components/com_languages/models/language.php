@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Languages Component Language Model
  *
@@ -16,6 +18,14 @@ defined('_JEXEC') or die;
  */
 class LanguagesModelLanguage extends JModelAdmin
 {
+	/**
+	 * The type alias for this content type (for example, 'com_content.article').
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_languages.language';
+
 	/**
 	 * Constructor.
 	 *
@@ -207,6 +217,13 @@ class LanguagesModelLanguage extends JModelAdmin
 			$this->setError($table->getError());
 
 			return false;
+		}
+
+		// Bind the rules.
+		if (isset($data['rules']))
+		{
+			$rules = new JAccessRules($data['rules']);
+			$table->setRules($rules);
 		}
 
 		// Check the data.

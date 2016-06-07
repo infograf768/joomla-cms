@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -20,6 +21,7 @@ JFactory::getDocument()->addScriptDeclaration(
 	{
 		if (task == "language.cancel" || document.formvalidator.isValid(document.getElementById("language-form")))
 		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			Joomla.submitform(task, document.getElementById("language-form"));
 		}
 	};
@@ -79,6 +81,12 @@ JFactory::getDocument()->addScriptDeclaration(
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL')); ?>
 		<?php echo $this->form->renderFieldset('site_name'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php if ($this->canDo->get('core.admin')) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_LANGUAGE_FIELDSET_RULES')); ?>
+			<?php echo $this->form->getInput('rules'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
 
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>

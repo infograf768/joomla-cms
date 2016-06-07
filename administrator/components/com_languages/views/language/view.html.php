@@ -34,7 +34,7 @@ class LanguagesViewLanguage extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->form  = $this->get('Form');
 		$this->state = $this->get('State');
-		$this->canDo = JHelperContent::getActions('com_languages');
+		$this->canDo = JHelperContent::getActions('com_languages', 'language', $this->item->lang_id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
