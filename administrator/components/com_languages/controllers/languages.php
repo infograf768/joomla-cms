@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Languages controller Class.
  *
@@ -63,5 +65,60 @@ class LanguagesControllerLanguages extends JControllerAdmin
 
 		// Close the application.
 		JFactory::getApplication()->close();
+	}
+
+	/**
+	 * Remove an item.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
+	 */
+	public function delete()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$user = JFactory::getUser();
+		$app  = JFactory::getApplication();
+		$cids = (array) $this->input->get('cid', array(), 'array');
+
+		if (count($cids) < 1)
+		{
+			$app->enqueueMessage(JText::_('COM_LANGUAGES_NO_LANGUAGE_SELECTED'), 'notice');
+		}
+		else
+		{
+			// Access checks.
+			foreach ($cids as $i => $id)
+			{
+				if (!$user->authorise('core.delete', 'com_languages.language.' . (int) $id))
+				{
+					// Prune items that you can't change.
+					unset($cids[$i]);
+					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+				}
+			}
+
+			if (count($cids) > 0)
+			{
+				// Get the model.
+				$model = $this->getModel();
+
+				// Make sure the item ids are integers
+				$cids = ArrayHelper::toInteger($cids);
+
+				// Remove the items.
+				if (!$model->delete($cids))
+				{
+					$this->setMessage($model->getError());
+				}
+				else
+				{
+					$this->setMessage(JText::plural('COM_LANGUAGES_N_LANGUAGES_DELETED', count($cids)));
+				}
+			}
+		}
+		$this->setRedirect('index.php?option=com_languages&view=languages');
 	}
 }
