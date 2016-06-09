@@ -1143,6 +1143,7 @@ class MenusModelItem extends JModelAdmin
 		// Association menu items
 		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
+		$user = JFactory::getUser();
 
 		if ($assoc)
 		{
@@ -1158,7 +1159,10 @@ class MenusModelItem extends JModelAdmin
 
 			foreach ($languages as $tag => $language)
 			{
-				if ($tag != $data['language'])
+				$permission = $user->authorise('core.permission', 'com_languages.language.' . (int) $language->lang_id);
+				$canDoAssociations = !is_null($permission) ? $permission : true;
+
+				if ($tag != $data['language'] && ($canDoAssociations))
 				{
 					$add = true;
 					$field = $fieldset->addChild('field');

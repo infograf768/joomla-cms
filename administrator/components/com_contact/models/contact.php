@@ -517,6 +517,7 @@ class ContactModelContact extends JModelAdmin
 	{
 		// Association content items
 		$assoc = JLanguageAssociations::isEnabled();
+		$user = JFactory::getUser();
 
 		if ($assoc)
 		{
@@ -531,7 +532,10 @@ class ContactModelContact extends JModelAdmin
 
 			foreach ($languages as $tag => $language)
 			{
-				if (empty($data->language) || $tag != $data->language)
+				$permission = $user->authorise('core.permission', 'com_languages.language.' . (int) $language->lang_id);
+				$canDoAssociations = !is_null($permission) ? $permission : true;
+
+				if (empty($data->language) || $tag != $data->language && ($canDoAssociations))
 				{
 					$add = true;
 					$field = $fieldset->addChild('field');
