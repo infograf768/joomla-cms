@@ -425,6 +425,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Association category items
 		$assoc = $this->getAssoc();
+		$user = JFactory::getUser();
 
 		if ($assoc)
 		{
@@ -439,7 +440,10 @@ class CategoriesModelCategory extends JModelAdmin
 
 			foreach ($languages as $tag => $language)
 			{
-				if (empty($data->language) || $tag != $data->language)
+				$permission = $user->authorise('core.permission', 'com_languages.language.' . (int) $language->lang_id);
+				$canDoAssociations = !is_null($permission) ? $permission : true;
+
+				if (empty($data->language) || $tag != $data->language && ($canDoAssociations))
 				{
 					$add = true;
 					$field = $fieldset->addChild('field');
