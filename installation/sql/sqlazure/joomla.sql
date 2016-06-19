@@ -54,7 +54,7 @@ SELECT 9, 1, 21, 22, 1, 'com_cpanel', 'com_cpanel', '{}'
 UNION ALL
 SELECT 10, 1, 23, 24, 1, 'com_installer', 'com_installer', '{"core.admin":[],"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'
 UNION ALL
-SELECT 11, 1, 25, 26, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 11, 1, 25, 26, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.permission":{"1":1}}'
 UNION ALL
 SELECT 12, 1, 27, 28, 1, 'com_login', 'com_login', '{}'
 UNION ALL

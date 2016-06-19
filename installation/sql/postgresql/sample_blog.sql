@@ -19,7 +19,7 @@ INSERT INTO "#__assets" VALUES
 (8,1,17,34,1,'com_content','com_content','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
 (9,1,35,36,1,'com_cpanel','com_cpanel','{}'),
 (10,1,37,38,1,'com_installer','com_installer','{"core.admin":[],"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'),
-(11,1,39,40,1,'com_languages','com_languages','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(11,1,39,40,1,'com_languages','com_languages','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.permission":{"1":1}}'),
 (12,1,41,42,1,'com_login','com_login','{}'),
 (13,1,43,44,1,'com_mailto','com_mailto','{}'),
 (14,1,45,46,1,'com_massmail','com_massmail','{}'),
