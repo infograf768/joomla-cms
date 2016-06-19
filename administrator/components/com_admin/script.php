@@ -1615,6 +1615,42 @@ class JoomlaInstallerScript
 			}
 		}
 
+		// The following code adds a new rule to com_languages asset with the "Allowed" permission.
+
+		/** @var JAccessRules $assetRules */
+		$assetRules = JAccess::getAssetRules('com_languages');
+		$assetData  = $assetRules->getData();
+
+		if (!isset($assetData['core.permission']))
+		{
+			$db = JFactory::getDbo();
+
+			// Get the root group id.
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__usergroups'))
+				->order($db->quoteName('parent_id') . ' ASC')
+				->setLimit(1);
+			$db->setQuery($query);
+
+			$rootGroupId = (int) $db->loadResult();
+
+			// Add new asset permission to the asset rules as "Allowed" to root group id (so other groups inherited it).
+			$assetRules->merge('{"core.permission":{"' . $rootGroupId . '":1}}');
+
+			// Save the new rule to assets table.
+			$asset = JTable::getInstance('Asset');
+			$asset->loadByName('com_languages');
+			$asset->rules = (string) $assetRules;
+
+			if (!$asset->check() || !$asset->store())
+			{
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+
+				return false;
+			}
+		}
+
 		return true;
 	}
 
