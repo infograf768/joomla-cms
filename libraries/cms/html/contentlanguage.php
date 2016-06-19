@@ -106,7 +106,7 @@ abstract class JHtmlContentLanguage
 			$asset = ArrayHelper::getValue($assets, $item->asset_name);
 
 			// Default to true for old content languages which have not had their acl saved.
-			$canDoAssociations = !is_null($asset) ? $user->authorise('core.permission', $asset->name) : true;
+			$canDoAssociations = !is_null($asset) ? $user->authorise('language.permission', $asset->name) : true;
 
 			if (!$canDoAssociations)
 			{

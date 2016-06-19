@@ -521,7 +521,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 			foreach ($languages as $tag => $language)
 			{
-				$permission = $user->authorise('core.permission', 'com_languages.language.' . (int) $language->lang_id);
+				$permission = $user->authorise('language.permission', 'com_languages.language.' . (int) $language->lang_id);
 				$canDoAssociations = !is_null($permission) ? $permission : true;
 
 				if (empty($data->language) || $tag != $data->language && ($canDoAssociations))

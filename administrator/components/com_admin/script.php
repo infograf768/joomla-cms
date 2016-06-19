@@ -1621,7 +1621,7 @@ class JoomlaInstallerScript
 		$assetRules = JAccess::getAssetRules('com_languages');
 		$assetData  = $assetRules->getData();
 
-		if (!isset($assetData['core.permission']))
+		if (!isset($assetData['language.permission']))
 		{
 			$db = JFactory::getDbo();
 
@@ -1636,7 +1636,7 @@ class JoomlaInstallerScript
 			$rootGroupId = (int) $db->loadResult();
 
 			// Add new asset permission to the asset rules as "Allowed" to root group id (so other groups inherited it).
-			$assetRules->merge('{"core.permission":{"' . $rootGroupId . '":1}}');
+			$assetRules->merge('{"language.permission":{"' . $rootGroupId . '":1}}');
 
 			// Save the new rule to assets table.
 			$asset = JTable::getInstance('Asset');
