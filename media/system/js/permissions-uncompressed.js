@@ -23,8 +23,16 @@ function sendPermissions(event) {
 	else if (extension == false && view == 'component'){
 		asset = component;
 	}
-	else if (extension != false && view != false){
-		asset = extension + '.' + view + '.' + getUrlParam('id');
+	else if (extension == false && view != false)
+	{
+		if (option == 'com_languages' && view == 'language')
+		{
+			asset = option + '.' + view + '.' + getUrlParam('lang_id');
+		}
+		else
+		{
+			asset = option + '.' + view + '.' + getUrlParam('id');
+		}
 		title = document.getElementById('jform_title').value;
 	}
 	else if (extension == false && view != false){
