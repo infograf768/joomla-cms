@@ -101,8 +101,9 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 					elseif (isset($key) && ($key == $language->lang_code))
 					{
 						$flag = JHtml::_('image', 'mod_languages/' . $language->image . '.gif',
-								$language->title_native, array('title' => $language->title_native), true);
-						$url  = JRoute::_('<a href="' . JRoute::_($value) . '">' . $flag . '</a>') . '&nbsp;';
+									$language->title_native, array('title' => $language->title_native), true
+								);
+						$url  = '&nbsp;' . JRoute::_('<a href="' . JRoute::_($value) . '">' . $flag . '</a>') . '&nbsp;';
 						echo $url;
 					}
 				}
