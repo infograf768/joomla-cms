@@ -9,6 +9,15 @@
 
 defined('JPATH_BASE') or die;
 
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery(document).ready(function() {
+		jQuery("#jform_language").on("change", function() {
+			var message = "' . JText::_('JGLOBAL_ASSOC_REINITIALISE', true) . '";
+			Joomla.renderMessages([[message, "<strong>' . JText::_("WARNING", true) . '</strong>"]]);
+		});
+	});
+');
+
 // JLayout for standard handling of associations fields in the administrator items edit screens.
 if ($displayData->getForm()->getValue('id') != 0 && $displayData->getForm()->getValue('language') != "*")
 {
