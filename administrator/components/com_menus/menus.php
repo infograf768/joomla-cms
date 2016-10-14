@@ -9,9 +9,13 @@
 
 defined('_JEXEC') or die;
 
-if (!JFactory::getUser()->authorise('core.manage', 'com_menus'))
+$user  = JFactory::getUser();
+$input = JFactory::getApplication()->input;
+
+if (($input->get('layout') !== 'modal' && $input->get('view') !== 'items')
+	&& !$user->authorise('core.manage', 'com_menus'))
 {
-	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 $controller = JControllerLegacy::getInstance('Menus');
